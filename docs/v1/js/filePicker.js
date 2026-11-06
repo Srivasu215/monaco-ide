@@ -87,3 +87,4 @@ export function initFilePicker(editor, monaco) {
 }
 
 export default initFilePicker;
+
