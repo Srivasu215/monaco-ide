@@ -1,0 +1,22 @@
+{
+  "project": "Monaco IDE",
+  "version": "3.0.0",
+  "description": "Standalone Web IDE with Multi-Document Tabs & Direct Disk Persistence",
+  "author": "KeshavSoft",
+  "features": [
+    "Multi-document tabbed buffer strip",
+    "Independent Monaco models with isolated undo/redo history",
+    "Native File System Access API (Open & Direct Disk Save via Ctrl+S)",
+    "Per-tab dirty change tracking with amber dot indicator",
+    "Built-in code formatter (JSON, JS, TS, HTML, CSS)",
+    "Tab close protection against accidental loss of unsaved edits",
+    "AOT compiled styling with zero runtime bloat"
+  ],
+  "quickTips": {
+    "newTab": "Click '+' on the tab strip or press Ctrl+O to open another file into a new tab",
+    "switchTab": "Click any tab to switch editor buffer with zero latency",
+    "save": "Press Ctrl+S to save the active file directly back to disk",
+    "format": "Press Shift+Alt+F to format the current document"
+  },
+  "website":""
+}
