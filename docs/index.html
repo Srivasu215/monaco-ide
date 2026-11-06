@@ -17,15 +17,21 @@
             <div class="flex items-center gap-2.5">
                 <i class="bi bi-code-slash text-sky-400 text-xl"></i>
                 <span class="font-bold text-sm tracking-wider uppercase text-zinc-200">Monaco IDE</span>
-                <span class="text-[10px] font-semibold text-sky-400 bg-sky-950/80 border border-sky-800/80 px-2 py-0.5 rounded-full">v1.0.0</span>
+                <span
+                    class="text-[10px] font-semibold text-emerald-400 bg-emerald-950/80 border border-emerald-800/80 px-2 py-0.5 rounded-full">v2.0.0</span>
             </div>
-            <div class="flex items-center gap-4 text-xs font-semibold">
-                <a href="./v1/" class="bg-sky-600 hover:bg-sky-500 text-white px-3.5 py-1.5 rounded-md shadow-sm transition active:scale-95 flex items-center gap-1.5">
+            <div class="flex items-center gap-3 text-xs font-semibold">
+                <a href="./v1/"
+                    class="text-zinc-400 hover:text-zinc-200 px-3 py-1.5 rounded-md hover:bg-zinc-800 transition">
+                    V1 Legacy
+                </a>
+                <a href="./v2/"
+                    class="bg-gradient-to-r from-sky-500 to-emerald-600 hover:from-sky-400 hover:to-emerald-500 text-white px-3.5 py-1.5 rounded-md shadow-sm transition active:scale-95 flex items-center gap-1.5">
                     <i class="bi bi-play-fill text-sm"></i>
-                    <span>Open V1 Playground</span>
+                    <span>Launch V2 Studio</span>
                 </a>
                 <a href="https://github.com/keshavsoft/monaco-ide" target="_blank" rel="noopener noreferrer"
-                    class="text-zinc-400 hover:text-zinc-100 flex items-center gap-1.5 transition">
+                    class="text-zinc-400 hover:text-zinc-100 flex items-center gap-1.5 transition ml-1">
                     <i class="bi bi-github text-base"></i>
                     <span>GitHub</span>
                 </a>
@@ -35,9 +41,10 @@
 
     <!-- Hero Section -->
     <main class="flex-1 max-w-4xl mx-auto px-6 py-16 flex flex-col items-center text-center">
-        <div class="inline-flex items-center gap-2 bg-zinc-900 border border-zinc-800 text-sky-400 px-3 py-1 rounded-full text-xs font-medium mb-6">
-            <i class="bi bi-stars"></i>
-            <span>Pure Monaco Engine + Ahead-of-Time Tailwind</span>
+        <div
+            class="inline-flex items-center gap-2 bg-zinc-900 border border-zinc-800 text-emerald-400 px-3 py-1 rounded-full text-xs font-medium mb-6">
+            <i class="bi bi-floppy text-xs"></i>
+            <span>V2 Active: Direct Disk Saving & Native File System API</span>
         </div>
 
         <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white max-w-2xl leading-tight mb-6">
@@ -45,20 +52,28 @@
         </h1>
 
         <p class="text-base sm:text-lg text-zinc-400 max-w-2xl mb-10 leading-relaxed">
-            A high-performance browser IDE powered by the official Monaco Editor core and compiled Ahead-of-Time with Tailwind CSS. Zero runtime compiler bloat. 100% portable.
+            A high-performance browser IDE powered by the official Monaco Editor core with Native File System Access.
+            Open local files, format syntax, and save changes directly back to your disk with <code
+                class="text-sky-400 bg-zinc-900 px-1.5 py-0.5 rounded border border-zinc-800">Ctrl+S</code>. Zero
+            runtime compiler bloat. 100% portable.
         </p>
 
         <!-- CTA Buttons -->
         <div class="flex flex-wrap items-center justify-center gap-4 mb-16">
-            <a href="./v1/"
-                class="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-semibold text-sm px-6 py-3 rounded-lg shadow-lg shadow-sky-950/50 transition transform hover:-translate-y-0.5 active:translate-y-0">
+            <a href="./v2/"
+                class="inline-flex items-center gap-2 bg-gradient-to-r from-sky-500 to-emerald-600 hover:from-sky-400 hover:to-emerald-500 text-white font-semibold text-sm px-6 py-3 rounded-lg shadow-lg shadow-sky-950/50 transition transform hover:-translate-y-0.5 active:translate-y-0">
                 <i class="bi bi-play-circle-fill text-lg"></i>
-                <span>Launch V1 Playground</span>
+                <span>Launch V2 Studio (Direct Save)</span>
+            </a>
+            <a href="./v1/"
+                class="inline-flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700/80 font-semibold text-sm px-5 py-3 rounded-lg transition">
+                <i class="bi bi-eye"></i>
+                <span>Open V1 Viewer</span>
             </a>
             <a href="https://github.com/keshavsoft/monaco-ide" target="_blank" rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700/80 font-semibold text-sm px-5 py-3 rounded-lg transition">
+                class="inline-flex items-center gap-2 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 border border-zinc-800 font-semibold text-sm px-4 py-3 rounded-lg transition">
                 <i class="bi bi-github"></i>
-                <span>View on GitHub</span>
+                <span>GitHub</span>
             </a>
         </div>
 
@@ -68,19 +83,24 @@
                 <i class="bi bi-journal-text"></i>
                 <span>The Story & Architecture</span>
             </div>
-            <h2 class="text-2xl font-bold text-white mb-4">Why We Started Monaco IDE</h2>
+            <h2 class="text-2xl font-bold text-white mb-4">Why We Built Monaco IDE</h2>
             <div class="space-y-4 text-zinc-300 text-sm leading-relaxed">
                 <p>
-                    Throughout the development of our JSON transformation pipelines (primitive, 1D collections, and 2D table renderers), we constantly faced friction switching back and forth between heavyweight desktop IDEs, terminal processes, and separate browser windows.
+                    Throughout the development of our JSON transformation pipelines (primitive, 1D collections, and 2D
+                    table renderers), we constantly faced friction switching back and forth between heavyweight desktop
+                    IDEs, terminal processes, and separate browser windows.
                 </p>
                 <p>
-                    Earlier experiments in legacy editor setups grew cluttered with 20+ historical iterations and conflicting CSS libraries. We asked a fundamental question: <em>Why not treat Monaco as our first-class, primary workspace?</em>
+                    Earlier experiments in legacy editor setups grew cluttered with conflicting CSS libraries and heavy
+                    runtimes. We asked a fundamental question: <em>Why not treat Monaco as our first-class, primary
+                        workspace with direct OS file integration?</em>
                 </p>
                 <p>
-                    We discovered that Monaco Editor requires <strong>zero external layout styling</strong>—it renders its own high-performance canvas engine. By coupling Monaco with an Ahead-of-Time (AOT) Node compilation step via Tailwind CSS, we produced a standalone, featherweight IDE with a minified stylesheet of <strong>just ~12 KB</strong> and zero runtime compiler script overhead.
-                </p>
-                <p>
-                    <strong>Monaco IDE</strong> is the result: a clean slate built for developers who want a responsive, distraction-free environment to edit files, preview data ASTs, and develop without leaving the browser.
+                    Monaco Editor renders its own high-performance canvas engine with zero external layout styling. By
+                    coupling Monaco with the modern <strong>File System Access API</strong>, <strong>Monaco IDE
+                        V2</strong> transforms from a read-only viewer into a full standalone workspace where pressing
+                    <code class="text-emerald-400 font-mono">Ctrl+S</code> writes directly back to your local files on
+                    disk.
                 </p>
             </div>
         </section>
@@ -88,32 +108,39 @@
         <!-- Feature Pillars -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full text-left mb-16">
             <div class="bg-zinc-900/40 border border-zinc-800/80 rounded-lg p-5">
-                <div class="h-9 w-9 rounded-md bg-sky-950 border border-sky-800 flex items-center justify-center text-sky-400 mb-3">
+                <div
+                    class="h-9 w-9 rounded-md bg-emerald-950 border border-emerald-800 flex items-center justify-center text-emerald-400 mb-3">
+                    <i class="bi bi-floppy-fill"></i>
+                </div>
+                <h3 class="font-semibold text-zinc-100 text-sm mb-1.5">Direct Disk Save (Ctrl+S)</h3>
+                <p class="text-xs text-zinc-400 leading-relaxed">
+                    Uses the File System Access API (<code class="text-emerald-400 font-mono">createWritable</code>) to
+                    persist edits directly to your local file without download prompts.
+                </p>
+            </div>
+
+            <div class="bg-zinc-900/40 border border-zinc-800/80 rounded-lg p-5">
+                <div
+                    class="h-9 w-9 rounded-md bg-sky-950 border border-sky-800 flex items-center justify-center text-sky-400 mb-3">
                     <i class="bi bi-lightning-charge-fill"></i>
                 </div>
                 <h3 class="font-semibold text-zinc-100 text-sm mb-1.5">AOT Tailwind Pipeline</h3>
                 <p class="text-xs text-zinc-400 leading-relaxed">
-                    Zero runtime CDN latency. Purged and compiled ahead-of-time via Node into an ultra-lean 12 KB stylesheet.
+                    Zero runtime CDN latency. Purged and compiled ahead-of-time via Node into an ultra-lean stylesheet
+                    with instant startup.
                 </p>
             </div>
 
             <div class="bg-zinc-900/40 border border-zinc-800/80 rounded-lg p-5">
-                <div class="h-9 w-9 rounded-md bg-indigo-950 border border-indigo-800 flex items-center justify-center text-indigo-400 mb-3">
-                    <i class="bi bi-folder2-open"></i>
+                <div
+                    class="h-9 w-9 rounded-md bg-indigo-950 border border-indigo-800 flex items-center justify-center text-indigo-400 mb-3">
+                    <i class="bi bi-magic"></i>
                 </div>
-                <h3 class="font-semibold text-zinc-100 text-sm mb-1.5">Native OS File Dialog</h3>
+                <h3 class="font-semibold text-zinc-100 text-sm mb-1.5">Dirty Tracker & Formatter</h3>
                 <p class="text-xs text-zinc-400 leading-relaxed">
-                    Open any file from your local disk with auto-detection for JSON, JavaScript, HTML, CSS, and Markdown.
-                </p>
-            </div>
-
-            <div class="bg-zinc-900/40 border border-zinc-800/80 rounded-lg p-5">
-                <div class="h-9 w-9 rounded-md bg-emerald-950 border border-emerald-800 flex items-center justify-center text-emerald-400 mb-3">
-                    <i class="bi bi-display"></i>
-                </div>
-                <h3 class="font-semibold text-zinc-100 text-sm mb-1.5">Full-Viewport Studio</h3>
-                <p class="text-xs text-zinc-400 leading-relaxed">
-                    Fixed 100vw × 100vh desktop application shell with automatic canvas resizing and zero window scrollbars.
+                    Visual unsaved changes indicator (<span class="text-amber-400 font-bold">•</span> dot), tab close
+                    guard, and 1-click Monaco syntax formatting (<code
+                        class="text-zinc-300 font-mono">Shift+Alt+F</code>).
                 </p>
             </div>
         </div>
@@ -122,19 +149,36 @@
         <section class="w-full text-left border-t border-zinc-800/80 pt-10">
             <h3 class="text-base font-bold text-zinc-200 mb-4">Milestones & Roadmap</h3>
             <div class="space-y-3">
-                <div class="flex items-start gap-3 p-3.5 rounded-lg bg-zinc-900/30 border border-zinc-800/60">
-                    <span class="text-xs font-bold font-mono text-emerald-400 bg-emerald-950/80 border border-emerald-800/80 px-2 py-0.5 rounded">v1 (Current)</span>
+                <div class="flex items-start gap-3 p-3.5 rounded-lg bg-zinc-900/40 border border-emerald-800/50">
+                    <span
+                        class="text-xs font-bold font-mono text-emerald-400 bg-emerald-950/80 border border-emerald-800/80 px-2 py-0.5 rounded">v2
+                        (Current)</span>
                     <div class="text-xs">
-                        <span class="font-semibold text-zinc-200">Standalone Fullscreen IDE:</span>
-                        <span class="text-zinc-400"> Native file picker, auto-language detection, AOT Tailwind compiler.</span>
-                        <a href="./v1/" class="text-sky-400 hover:underline ml-1">Open Demo &rarr;</a>
+                        <span class="font-semibold text-zinc-200">Native Disk Persistence:</span>
+                        <span class="text-zinc-400"> File System Access API direct saving (<code
+                                class="text-zinc-300 font-mono">Ctrl+S</code>), dirty change detection, code formatter,
+                            tab close protection.</span>
+                        <a href="./v2/" class="text-emerald-400 hover:underline ml-1 font-semibold">Open V2 Studio
+                            &rarr;</a>
                     </div>
                 </div>
-                <div class="flex items-start gap-3 p-3.5 rounded-lg bg-zinc-900/20 border border-zinc-800/40 opacity-75">
-                    <span class="text-xs font-bold font-mono text-zinc-400 bg-zinc-800 px-2 py-0.5 rounded">v2 (Planned)</span>
+                <div
+                    class="flex items-start gap-3 p-3.5 rounded-lg bg-zinc-900/20 border border-zinc-800/60 opacity-80">
+                    <span class="text-xs font-bold font-mono text-zinc-400 bg-zinc-800 px-2 py-0.5 rounded">v1</span>
+                    <div class="text-xs text-zinc-400">
+                        <span class="font-semibold text-zinc-300">Fullscreen Read-only IDE:</span>
+                        <span> Native OS file picker dialog, auto-language detection, AOT Tailwind compiler.</span>
+                        <a href="./v1/" class="text-sky-400 hover:underline ml-1">Open V1 &rarr;</a>
+                    </div>
+                </div>
+                <div
+                    class="flex items-start gap-3 p-3.5 rounded-lg bg-zinc-900/20 border border-zinc-800/40 opacity-60">
+                    <span class="text-xs font-bold font-mono text-zinc-500 bg-zinc-800/60 px-2 py-0.5 rounded">v3
+                        (Planned)</span>
                     <div class="text-xs text-zinc-400">
                         <span class="font-semibold text-zinc-300">Activity Bar & Multi-Document:</span>
-                        <span> Vertical icon band, tabbed multi-buffer support, split view renderer.</span>
+                        <span> Vertical activity icon bar, tabbed multi-buffer navigation, and live preview
+                            panels.</span>
                     </div>
                 </div>
             </div>

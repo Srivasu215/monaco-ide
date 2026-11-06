@@ -1,0 +1,20 @@
+{
+  "project": "Monaco IDE",
+  "version": "2.0.0",
+  "description": "Standalone Web IDE with Native File System Access & Direct Disk Saving",
+  "author": "KeshavSoft",
+  "features": [
+    "Native File System Access API (Open & Direct Disk Save)",
+    "Automatic dirty state & unsaved changes tracking",
+    "Ctrl+S keyboard shortcut for instant persistence",
+    "Built-in code formatter (JSON, JS, HTML, CSS)",
+    "Graceful fallback for browsers without File System Access API",
+    "Ahead-of-Time compiled styling with zero runtime bloat"
+  ],
+  "quickTips": {
+    "open": "Click 'Open' or press Ctrl+O to pick a file from your hard drive",
+    "edit": "Modify content directly in the Monaco editor",
+    "format": "Click 'Format' or press Shift+Alt+F to reformat code",
+    "save": "Click 'Save' or press Ctrl+S to save changes directly back to disk"
+  }
+}
