@@ -1,0 +1,27 @@
+{
+  "name": "monaco-ide",
+  "version": "1.0.0",
+  "description": "Standalone Monaco-based Web IDE with Ahead-of-Time Tailwind CSS compilation",
+  "type": "module",
+  "license": "MIT",
+  "author": "KeshavSoft",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./v1": "./src/v1/index.js"
+  },
+  "files": [
+    "src",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build:css": "npx @tailwindcss/cli -i ./src/v1/input.css -o ./docs/v1/style.css --minify",
+    "dev:css": "npx @tailwindcss/cli -i ./src/v1/input.css -o ./docs/v1/style.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "tailwindcss": "^4.3.5"
+  }
+}

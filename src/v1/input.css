@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@layer utilities {
+    .editor-canvas {
+        height: calc(100vh - 42px);
+    }
+}

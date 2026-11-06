@@ -1,0 +1,12 @@
+{
+  "project": "Monaco IDE",
+  "version": "1.0.0",
+  "description": "Standalone Monaco-based Web IDE with Ahead-of-Time Tailwind CSS",
+  "author": "KeshavSoft",
+  "features": [
+    "Full-screen editor canvas",
+    "Native OS file picker integration",
+    "Auto-language detection (JSON, JS, HTML, CSS)",
+    "Compiled Tailwind CSS with zero runtime overhead"
+  ]
+}
