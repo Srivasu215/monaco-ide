@@ -1,195 +1,46 @@
 /**
- * Monaco IDE V12 - Virtual Server Service Worker
- * Intercepts requests to /docs/v12/virtual-server/* and serves files from IndexedDB.
+ * Monaco IDE V13 - Virtual Server Service Worker
+ * ===============================================
+ * An in-browser HTTP server powered by IndexedDB & Service Worker Fetch Interception.
+ * Intercepts requests to /docs/v13/virtual-server/* and serves local workspace files.
+ *
+ * The Virtual Server Story (Modular Chapters):
+ * --------------------------------------------
+ * 1. Storage & Virtual Disk:
+ *    - ./sw/storage/config.js       -> DB & Channel constants (v13-monaco-preview)
+ *    - ./sw/storage/db.js           -> IndexedDB connection initializer
+ *    - ./sw/storage/fileReader.js   -> File record lookup & path indexing
+ *
+ * 2. Content & MIME Negotiation:
+ *    - ./sw/mime/guessMime.js       -> Accurate MIME-types & UTF-8 charsets
+ *
+ * 3. Live Reload Middleware:
+ *    - ./sw/middleware/liveReloadBridge.js -> BroadcastChannel bridge & badge injection
+ *
+ * 4. Request Router & Handlers:
+ *    - ./sw/router/notFoundHandler.js      -> Dark-themed 404 directory listing
+ *    - ./sw/router/routeMatcher.js          -> Path normalization & route matching
+ *    - ./sw/router/fetchHandler.js          -> Request coordinator & response builder
+ *
+ * 5. Daemon Lifecycle:
+ *    - ./sw/lifecycle.js            -> install, activate, claim & fetch binding
  */
 
-const DB_NAME = 'v12-monaco-preview';
-const DB_VERSION = 1;
-const STORE_NAME = 'files';
+// Chapter 1: Storage & Virtual Disk
+importScripts('./sw/storage/config.js');
+importScripts('./sw/storage/db.js');
+importScripts('./sw/storage/fileReader.js');
 
-self.addEventListener('install', event => {
-    self.skipWaiting();
-});
+// Chapter 2: Content & MIME Negotiation
+importScripts('./sw/mime/guessMime.js');
 
-self.addEventListener('activate', event => {
-    event.waitUntil(self.clients.claim());
-});
+// Chapter 3: Live Reload Middleware
+importScripts('./sw/middleware/liveReloadBridge.js');
 
-function openDatabase() {
-    return new Promise((resolve, reject) => {
-        const req = indexedDB.open(DB_NAME, DB_VERSION);
-        req.onupgradeneeded = () => {
-            const db = req.result;
-            if (!db.objectStoreNames.contains(STORE_NAME)) {
-                db.createObjectStore(STORE_NAME, { keyPath: 'path' });
-            }
-        };
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => reject(req.error || new Error('Could not open IndexedDB in Service Worker'));
-    });
-}
+// Chapter 4: Request Router & Response Engine
+importScripts('./sw/router/notFoundHandler.js');
+importScripts('./sw/router/routeMatcher.js');
+importScripts('./sw/router/fetchHandler.js');
 
-async function getStoredFile(filePath) {
-    const db = await openDatabase();
-    return new Promise((resolve) => {
-        const tx = db.transaction(STORE_NAME, 'readonly');
-        const store = tx.objectStore(STORE_NAME);
-        const req = store.get(filePath);
-        req.onsuccess = () => resolve(req.result || null);
-        req.onerror = () => resolve(null);
-    });
-}
-
-async function getAllStoredPaths() {
-    const db = await openDatabase();
-    return new Promise((resolve) => {
-        const tx = db.transaction(STORE_NAME, 'readonly');
-        const store = tx.objectStore(STORE_NAME);
-        const req = store.getAllKeys();
-        req.onsuccess = () => resolve(req.result || []);
-        req.onerror = () => resolve([]);
-    });
-}
-
-function guessMimeType(path) {
-    const ext = String(path).split('.').pop()?.toLowerCase();
-    const map = {
-        html: 'text/html; charset=utf-8',
-        htm: 'text/html; charset=utf-8',
-        css: 'text/css; charset=utf-8',
-        js: 'text/javascript; charset=utf-8',
-        mjs: 'text/javascript; charset=utf-8',
-        json: 'application/json; charset=utf-8',
-        svg: 'image/svg+xml',
-        png: 'image/png',
-        jpg: 'image/jpeg',
-        jpeg: 'image/jpeg',
-        gif: 'image/gif',
-        webp: 'image/webp',
-        ico: 'image/x-icon',
-        txt: 'text/plain; charset=utf-8',
-        xml: 'application/xml; charset=utf-8',
-        wasm: 'application/wasm',
-        woff: 'font/woff',
-        woff2: 'font/woff2',
-        ttf: 'font/ttf'
-    };
-    return map[ext] || 'application/octet-stream';
-}
-
-const LIVE_RELOAD_SNIPPET = `
-<!-- Monaco IDE V12 Live Reload Bridge -->
-<script>
-(() => {
-  try {
-    const bc = new BroadcastChannel('v12-preview-channel');
-    bc.onmessage = (e) => {
-      if (e.data && e.data.type === 'RELOAD') {
-        console.log('[V12 Virtual Server] Live reload signal received, reloading...');
-        location.reload();
-      }
-    };
-    window.addEventListener('DOMContentLoaded', () => {
-      const b = document.createElement('div');
-      b.id = '__v12_badge';
-      b.innerHTML = '⚡ <b>Monaco IDE V12</b> · ' + (location.pathname.split('/').filter(Boolean).pop() || 'index.html');
-      b.style.cssText = 'position:fixed;bottom:10px;right:10px;background:#09090bee;color:#38bdf8;padding:5px 10px;border-radius:6px;font:11px monospace;z-index:2147483647;border:1px solid #0284c7;box-shadow:0 4px 12px rgba(0,0,0,0.6);pointer-events:none;';
-      document.body.appendChild(b);
-    });
-  } catch(e) {}
-})();
-</script>
-`;
-
-self.addEventListener('fetch', event => {
-    const url = new URL(event.request.url);
-    const virtualRoutePrefix = new URL('virtual-server/', self.registration.scope).pathname;
-
-    if (url.origin !== self.location.origin || !url.pathname.startsWith(virtualRoutePrefix)) {
-        return; // Normal asset requests pass through
-    }
-
-    event.respondWith((async () => {
-        let relativePath = decodeURIComponent(url.pathname.slice(virtualRoutePrefix.length));
-        if (!relativePath || relativePath.endsWith('/')) {
-            relativePath += 'index.html';
-        }
-        relativePath = relativePath.replace(/^\/+/, '');
-
-        // Try exact match in IndexedDB
-        let fileRecord = await getStoredFile(relativePath);
-
-        // Fallback: check if path without folder prefix or with index.html matches
-        if (!fileRecord && !relativePath.endsWith('.html') && !relativePath.includes('.')) {
-            fileRecord = await getStoredFile(relativePath + '/index.html');
-        }
-
-        if (!fileRecord) {
-            const allKeys = await getAllStoredPaths();
-            const listHtml = allKeys.map(k => `<li><a style="color:#38bdf8;text-decoration:none;" href="${new URL(k, url.href).href}">${k}</a></li>`).join('');
-            return new Response(`
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>404 — Virtual File Not Found (V12)</title>
-  <style>
-    body { background: #09090b; color: #f4f4f5; font-family: ui-monospace, monospace; padding: 32px; }
-    h1 { color: #f87171; font-size: 20px; }
-    code { background: #27272a; padding: 2px 6px; border-radius: 4px; color: #fbbf24; }
-    ul { margin-top: 12px; line-height: 1.8; }
-  </style>
-</head>
-<body>
-  <h1>Virtual Server: File Not Found</h1>
-  <p>Requested path: <code>${relativePath}</code></p>
-  <p>Make sure this file exists in your opened folder in Monaco IDE Tab 1.</p>
-  <hr style="border:0;border-top:1px solid #27272a;margin:20px 0;">
-  <h3>Available files in this session (${allKeys.length}):</h3>
-  <ul>${listHtml || '<li><em>No files loaded yet. Click "Folder" in Tab 1!</em></li>'}</ul>
-</body>
-</html>
-            `, {
-                status: 404,
-                headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' }
-            });
-        }
-
-        const mime = fileRecord.contentType || guessMimeType(relativePath);
-        const headers = new Headers({
-            'Content-Type': mime,
-            'Cache-Control': 'no-store',
-            'X-Served-By': 'Monaco-IDE-V11-Virtual-Server'
-        });
-
-        if (mime.includes('text/html')) {
-            let htmlText = '';
-            if (typeof fileRecord.body === 'string') {
-                htmlText = fileRecord.body;
-            } else if (fileRecord.body instanceof Blob) {
-                htmlText = await fileRecord.body.text();
-            } else if (fileRecord.body instanceof ArrayBuffer) {
-                htmlText = new TextDecoder().decode(fileRecord.body);
-            }
-
-            if (/<\/body>/i.test(htmlText)) {
-                htmlText = htmlText.replace(/<\/body>/i, `${LIVE_RELOAD_SNIPPET}</body>`);
-            } else {
-                htmlText += LIVE_RELOAD_SNIPPET;
-            }
-
-            return new Response(htmlText, { status: 200, headers });
-        }
-
-        return new Response(fileRecord.body, { status: 200, headers });
-    })());
-});
-
-self.addEventListener('message', event => {
-    if (event.data && event.data.type === 'SKIP_WAITING') {
-        self.skipWaiting();
-    }
-    if (event.data && event.data.type === 'CLAIM') {
-        self.clients.claim();
-    }
-});
+// Chapter 5: Daemon Lifecycle
+importScripts('./sw/lifecycle.js');

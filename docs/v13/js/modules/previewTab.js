@@ -1,15 +1,15 @@
 /**
- * Monaco IDE V12 - Full Preview Virtual Server Bridge
+ * Monaco IDE V13 - Full Preview Virtual Server Bridge
  * Connects Tab 1 (Monaco Studio) directly to Tab 2 (Preview) via Service Worker & BroadcastChannel.
  */
 
 import { eventBus } from '../core/eventBus.js';
 import { state, getActiveTab } from '../core/state.js';
 
-const DB_NAME = 'v12-monaco-preview';
+const DB_NAME = 'v13-monaco-preview';
 const DB_VERSION = 1;
 const STORE_NAME = 'files';
-const CHANNEL_NAME = 'v12-preview-channel';
+const CHANNEL_NAME = 'v13-preview-channel';
 
 let channel = null;
 let updateTimer = null;
@@ -210,9 +210,9 @@ export async function openFullPreviewTab() {
         }
 
         const virtualUrl = new URL(`virtual-server/${entryPath}`, window.location.href);
-        console.log('[V12 Studio] Opening Virtual Server preview at:', virtualUrl.href);
+        console.log('[V13 Studio] Opening Virtual Server preview at:', virtualUrl.href);
 
-        const win = window.open(virtualUrl.href, 'monacoPreviewV12');
+        const win = window.open(virtualUrl.href, 'monacoPreviewV13');
         if (!win) {
             setStatus('Popup blocked — allow popups', true);
             alert('Browser blocked pop-up. Please allow popups for localhost / this site.');
