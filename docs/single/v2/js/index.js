@@ -1,15 +1,13 @@
 /**
- * Monaco IDE V13 - Application Bootstrapper
- * Built with KeshavSoft Declarative DOM Primitive Bindings.
+ * Monaco IDE Single V2 - Application Bootstrapper
+ * Streamlined single-file editor without left file explorer.
  */
 
 import { state } from './core/state.js';
 import { initHeader } from './modules/header/index.js';
-import { initExplorer } from './modules/explorer/index.js';
 import { initTabs, createTab } from './modules/tabs/index.js';
 import { initPreview } from './modules/preview/index.js';
 import { initStatusBar } from './modules/statusBar/index.js';
-import { initQuickOpen } from './modules/quickOpen/index.js';
 
 let editor = null;
 let monacoInstance = null;
@@ -62,13 +60,11 @@ async function startIDE() {
         state.editor = editor;
         state.monaco = monacoInstance;
 
-        // Initialize all modules powered by dom-primitive-bindings
+        // Initialize modules powered by dom-primitive-bindings
         initHeader();
-        initExplorer();
         initTabs();
         initPreview();
         initStatusBar();
-        initQuickOpen();
 
         // Seed initial sample.json tab
         createTab({

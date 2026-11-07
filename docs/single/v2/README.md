@@ -1,27 +1,37 @@
-# Monaco IDE Single — Clean Focused Architecture
+# Monaco IDE Single V2 — Single File Editor (Without Explorer)
 
-Monaco IDE Single (V1) is a focused, streamlined version of the IDE tailored for direct file editing without heavy service workers or background preview bridges.
+Monaco IDE Single V2 is a streamlined, distraction-free code editor designed for working with a single file. The left workspace folder explorer has been removed, dedicating 100% of the screen width to the Monaco code editor.
+
+---
+
+### Key Features
+
+* **No File Explorer**: Clean, full-width canvas without the left sidebar.
+* **Single File Focus**: Open any file from disk via the **File** button (`Ctrl+O`).
+* **Essential Studio Tools**:
+  * Status bar with cursor position (`Ln/Col`), Word Wrap toggle (`Alt+Z`), Minimap toggle, and language indicator.
+  * Inline live split preview (`Ctrl+\`).
+  * Direct file buffer editing.
 
 ---
 
 ### Architecture & Active Modules
 
 ```
-docs/single/v1/
-├── index.html                  # 42px Compact Studio Shell & Layout
+docs/single/v2/
+├── index.html                  # Full-width single-file editor layout
 ├── sample.json                 # Initial buffer
-├── style.css                   # IDE styles
+├── style.css                   # IDE styling
+├── README.md                   # Documentation
 └── js/
-    ├── index.js                # App bootstrapper
+    ├── index.js                # Bootstrapper (no explorer, no quickOpen)
     ├── core/
-    │   ├── state.js            # Central State Store (workspace, tabs, activeTabId)
-    │   ├── eventBus.js         # Decoupled Event Bus (pub/sub)
-    │   └── bindings.js         # Declarative DOM Primitive Bindings engine
+    │   ├── bindings.js         # DOM primitive bindings engine
+    │   ├── eventBus.js         # Event bus
+    │   └── state.js            # Tabs & active model state
     └── modules/
-        ├── header/             # Brand, File Open button, Sidebar toggle
-        ├── explorer/           # Workspace Directory Tree
-        ├── tabs/               # Multi-document buffer strip & model isolation
-        ├── preview/            # Split Live Preview Pane (Ctrl+\)
-        ├── statusBar/          # Compact 22px status bar (Ln/Col, UTF-8, Alt+Z Wrap)
-        └── quickOpen/          # Fuzzy file search palette (Ctrl+P)
+        ├── header/             # Open file action only
+        ├── tabs/               # Single buffer management
+        ├── preview/            # Split preview (Ctrl+\)
+        └── statusBar/          # Compact status bar
 ```
