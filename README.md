@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![Live Demo](https://img.shields.io/badge/Live-Playground-sky.svg?style=flat-square)](https://keshavsoft.github.io/monaco-ide/)
 
-> **A high-performance, browser-native Web IDE powered by Microsoft Monaco Editor, Multi-Document Tabs, the File System Access API, and Ahead-of-Time (AOT) compiled Tailwind CSS.**
+> **A high-performance, browser-native Web IDE powered by Microsoft Monaco Editor, Workspace Directory Explorer, Multi-Document Tabs, Live Split Preview, and Ahead-of-Time (AOT) compiled Tailwind CSS.**
 
 ---
 
@@ -13,51 +13,50 @@
 Throughout our journey of building multi-dimensional JSON transformation engines (`json-transformer-funcs-primitive`, `one-dimension`, and `two-dimensions`), we constantly experienced friction in the standard developer workflow:
 - Constantly switching between bloated desktop IDEs (VS Code), local development servers, and browser tabs.
 - Existing browser editor playgrounds were burdened with historical baggage (mixed CSS frameworks and sluggish runtime compilation).
-- We asked a fundamental question: **Why can't our browser workspace BE the IDE with real multi-file editing and disk saving?**
+- We asked a fundamental question: **Why can't our browser workspace BE the complete desktop IDE replacement?**
 
 ### The Architectural Breakthrough
 1. **Monaco Needs Zero External Layout CSS**: Monaco Editor operates its own high-performance HTML5 Canvas and internal layout manager. It does not require massive styling frameworks.
-2. **Ahead-of-Time (AOT) Tailwind Compilation**: Instead of loading heavy runtime compiler scripts in the browser, we compile Tailwind CSS directly through Node. The entire stylesheet compiles into a tiny, self-contained standalone CSS file (~12 KB) with **zero runtime overhead**.
-3. **Multi-Document Tabs with Isolated Text Models**: Multiple files can be opened simultaneously. Each tab owns its own independent Monaco text model, preserving individual undo/redo histories, scroll positions, and dirty state.
-4. **Native File System Access API (Direct Disk Save)**: Using modern browser File System Access APIs (`showOpenFilePicker` & `createWritable`), users can open multiple files from their local storage, edit, and hit `Ctrl+S` to write directly back to disk—no file download prompts required.
+2. **Ahead-of-Time (AOT) Tailwind Compilation**: Purged and minified at build time into an ultra-lean CSS file (~12 KB) with **zero runtime overhead**.
+3. **Workspace Folder Explorer via File System Access API**: Using `window.showDirectoryPicker()`, users can open local project folders directly, browse a collapsible tree sidebar (`Ctrl+B`), and open files into tabs.
+4. **Direct Disk Persistence (`Ctrl+S`)**: Writes edits directly back to your local files using `createWritable()` without file download prompts.
+5. **Live Split-Screen Preview (`Ctrl+\`)**: Real-time side-by-side rendering for HTML, formatted JSON trees, and Markdown.
 
 ---
 
 ## ✨ Features
 
+- 📁 **Workspace Folder Explorer**: Open entire local directories via `showDirectoryPicker` with collapsible tree navigation (`Ctrl+B`).
 - 📑 **Multi-Document Tab Strip**: Open and switch between multiple files with zero-latency buffer swapping.
-- 💾 **Native Direct Disk Save (Ctrl+S)**: Persist changes directly back to your local files using the File System Access API (`createWritable`).
-- ⚡ **AOT Compiled Tailwind CSS**: Purged and minified at build time into a standalone file. Zero runtime Tailwind CDN dependencies.
-- 🖥️ **Full-Viewport Desktop Shell**: True 100vw × 100vh window layout with zero unwanted browser scrollbars.
-- 📂 **Multi-File Open Dialog (Ctrl+O)**: Open multiple files at once with automatic language intelligence (JSON, JavaScript, TypeScript, HTML, CSS, Markdown).
+- 💾 **Native Direct Disk Save (Ctrl+S)**: Persist changes directly back to your local files on disk.
+- 🪟 **Live Split-Screen Preview (Ctrl+\)**: Real-time preview for HTML (sandboxed iframe), formatted JSON, and Markdown.
+- 📊 **22px Studio Status Bar**: Cursor position (`Ln/Col`), UTF-8, Spaces, Language mode, Word Wrap toggle (`Alt+Z`), and Minimap toggle.
 - 🧹 **Built-in Code Formatter**: 1-click syntax formatting (`Shift+Alt+F`).
-- 🟡 **Per-Tab Dirty Change Tracker**: Live unsaved changes dot (`•`) and tab-close protection against data loss.
-- 🛡️ **Graceful Fallbacks**: Works seamlessly across Chromium (direct disk save) and non-Chromium browsers (automatic blob download fallback).
+- 🟡 **Per-Tab Dirty Change Tracker**: Live unsaved changes dot (`•`) and tab-close protection.
+- ⚡ **AOT Compiled Tailwind CSS**: Purged and minified at build time. Zero runtime Tailwind CDN overhead.
 - 🚀 **GitHub Pages Ready**: Self-contained `docs/` folder ready for instant static web deployment.
 
 ---
 
-## 📐 Layout Architecture (V3)
+## 📐 Layout Architecture (V4)
 
 ```
-+-------------------------------------------------------------------------------------------------------------+
-| [📂 Open] [💾 Save (Ctrl+S)] [✨ Format]                  Active: [ sample.json • 0.4 KB ] [Saved ✓] [Docs] |  <-- 42px Header
-+-------------------------------------------------------------------------------------------------------------+
-| [📄 sample.json • ✕] [📄 schema.json ✕] [📄 index.js ✕]                                               [+]  |  <-- 34px Tab Strip
-+-------------------------------------------------------------------------------------------------------------+
-|                                                                                                             |
-|                                                                                                             |
-|                                     MONACO EDITOR (100% Fullscreen)                                         |
-|                                                                                                             |
-|                               - Multi-buffer isolated Monaco models                                         |
-|                               - Automatic layout & syntax highlighting                                      |
-|                               - Full viewport: 100vw × calc(100vh - 76px)                                   |
-|                               - File System Access API: direct disk persistence (Ctrl+S)                    |
-|                               - Unsaved changes dirty tracking & tab guard                                  |
-|                               - One-click formatting (Shift+Alt+F)                                          |
-|                                                                                                             |
-|                                                                                                             |
-+-------------------------------------------------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------------------------+
+| [🗂️] [📄 File] [📁 Folder] [💾 Save (Ctrl+S)] [✨ Format] [🪟 Preview]        Active: [ sample.json • 0.4 KB ] [Saved ✓] |  <-- 42px Header
++--------------------+---------------------------------------------------------------------------------------------------+
+| EXPLORER           | [📄 sample.json • ✕] [📄 index.js ✕] [📄 style.css ✕]                                        [+] |  <-- 34px Tab Strip
+|                    +-------------------------------------------------+-------------------------------------------------+
+| 📁 src             |                                                 | LIVE PREVIEW (Ctrl+\)                           |
+|   📁 v4            |                                                 |                                                 |
+|     📄 index.js    |                 MONACO EDITOR                   | - HTML sandboxed iframe                         |
+|     📄 input.css   |                                                 | - Interactive JSON Tree                         |
+| 📁 docs            |           - Multi-buffer isolated models        | - Markdown live renderer                        |
+|   📄 index.html    |           - Direct disk persistence (Ctrl+S)    | - Real-time auto sync                           |
+|   📄 sample.json   |           - Full viewport layout                |                                                 |
+| 📄 package.json    |                                                 |                                                 |
++--------------------+-------------------------------------------------+-------------------------------------------------+
+| ⚡ Monaco Studio | Ln 14, Col 8                                               [Wrap: On] [Map: Off] UTF-8 Spaces: 2 JSON |  <-- 22px Status Bar
++------------------------------------------------------------------------------------------------------------------------+
 ```
 
 ---
@@ -73,10 +72,18 @@ npm install monaco-ide
 ### Usage as a Module
 
 ```javascript
-import { initTabManager, createTab, openFiles, saveActiveFile } from "monaco-ide";
+import {
+  initTabManager,
+  initTreeExplorer,
+  initStatusBar,
+  initPreviewManager
+} from "monaco-ide";
 
-// Connect multi-document tab manager to your Monaco editor instance
+// Bootstrap all Monaco IDE modules
 initTabManager(editor, monaco);
+initTreeExplorer(editor, onFileOpen);
+initStatusBar(editor, monaco);
+initPreviewManager(editor, monaco);
 ```
 
 ### Running Locally
@@ -93,7 +100,7 @@ npm install
 npm run build:css
 ```
 
-Open `docs/index.html` or `docs/v3/index.html` in any browser or local HTTP server.
+Open `docs/index.html` or `docs/v4/index.html` in any browser or local HTTP server.
 
 ---
 
@@ -101,27 +108,32 @@ Open `docs/index.html` or `docs/v3/index.html` in any browser or local HTTP serv
 
 ```
 monaco-ide/
-├── package.json           # npm configuration (strictly targets highest version)
+├── package.json           # npm configuration (strictly targets highest version v4)
 ├── LICENSE                # MIT License
 ├── README.md              # Project documentation
 ├── src/                   # Library source code
-│   ├── index.js           # Package root entry (re-exports v3)
+│   ├── index.js           # Package root entry (re-exports v4)
 │   ├── v1/                # V1 historical archive
 │   ├── v2/                # V2 historical archive
-│   └── v3/                # V3 Active Source
-│       ├── index.js       # V3 module exports
+│   ├── v3/                # V3 historical archive
+│   └── v4/                # V4 Active Source
+│       ├── index.js       # V4 module exports
 │       └── input.css      # Tailwind v4 source entry
 └── docs/                  # GitHub Pages live hosting
     ├── index.html         # Landing page with story & version directory
     ├── v1/                # V1 Read-only Studio
     ├── v2/                # V2 Single-File Direct Save Studio
-    └── v3/                # V3 Multi-Document Tabbed Studio
-        ├── index.html     # V3 Fullscreen Studio with Tab Strip
+    ├── v3/                # V3 Multi-Document Tabbed Studio
+    └── v4/                # V4 Full Workspace Studio (Explorer + Split Preview + Status Bar)
+        ├── index.html     # V4 Fullscreen Studio layout
         ├── sample.json    # Initial workspace sample
         ├── style.css      # Compiled standalone CSS
         └── js/
-            ├── index.js   # Monaco IDE bootstrap
-            └── tabManager.js # Tab Strip, Multi-Model, Save & Format engine
+            ├── index.js          # Monaco IDE bootstrap
+            ├── tabManager.js     # Tab strip & multi-model manager
+            ├── treeExplorer.js   # Workspace directory tree explorer
+            ├── statusBar.js      # Studio status bar & toggles
+            └── previewManager.js # Live split-screen preview
 ```
 
 ---
@@ -130,8 +142,8 @@ monaco-ide/
 
 - **v1.0.0**: Fullscreen Monaco IDE, native file picker, auto language detection, AOT Tailwind CSS pipeline.
 - **v2.0.0**: Native File System Access API direct disk save (`Ctrl+S`), unsaved changes tracking, code formatter.
-- **v3.0.0 (Current)**: Multi-document tab strip, isolated Monaco text models, multi-file opening, per-tab dirty tracking, direct disk save.
-- **v4.0.0 (Planned)**: Workspace folder explorer (`showDirectoryPicker`) with collapsible left sidebar tree.
+- **v3.0.0**: Multi-document tab strip, isolated Monaco text models, multi-file opening, per-tab dirty tracking.
+- **v4.0.0 (Current)**: Workspace Directory Explorer (`showDirectoryPicker`), collapsible sidebar (`Ctrl+B`), live split preview (`Ctrl+\`), and 22px studio status bar (`Alt+Z`).
 
 ---
 

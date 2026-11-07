@@ -1,0 +1,25 @@
+{
+  "project": "Monaco IDE",
+  "version": "4.0.0",
+  "description": "Full Web IDE with Workspace Directory Explorer, Multi-Tabs, Split Preview & Studio Status Bar",
+  "author": "KeshavSoft",
+  "features": [
+    "Workspace Folder Explorer (Open Folder via showDirectoryPicker)",
+    "Collapsible left file tree sidebar (toggle with Ctrl+B)",
+    "Multi-document tabbed buffer strip with isolated Monaco models",
+    "Live Split-Screen Preview (toggle with Ctrl+\\ or Split button)",
+    "Compact 22px Studio Status Bar (Ln/Col, UTF-8, Spaces, Language)",
+    "Native File System Access API (Direct disk persistence via Ctrl+S)",
+    "Quick toggles for Word Wrap (Alt+Z) and Monaco Minimap",
+    "One-click syntax formatter (Shift+Alt+F)"
+  ],
+  "shortcuts": {
+    "openFolder": "Click 'Folder' to browse and edit an entire project directory",
+    "toggleSidebar": "Press Ctrl+B to toggle the Explorer sidebar",
+    "togglePreview": "Press Ctrl+\\ to toggle the live split preview pane",
+    "toggleWordWrap": "Press Alt+Z to toggle word wrapping",
+    "save": "Press Ctrl+S to save active file directly back to disk",
+    "format": "Press Shift+Alt+F to format active document",
+    "closeTab": "Press Ctrl+W to close active tab"
+  }
+}
