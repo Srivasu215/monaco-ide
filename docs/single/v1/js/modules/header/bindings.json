@@ -1,0 +1,14 @@
+[
+  {
+    "event": "click",
+    "selector": "#sidebarToggleBtn",
+    "action": "toggleSidebar",
+    "narration": "Toggle left workspace explorer sidebar visibility (Ctrl+B)"
+  },
+  {
+    "event": "click",
+    "selector": "#openFileBtn",
+    "action": "openFiles",
+    "narration": "Open files from local disk via native file dialog (Ctrl+O)"
+  }
+]
