@@ -36,6 +36,7 @@
     "access": "public"
   },
   "scripts": {
+    "dev:v8": "node dev-preview-server.js",
     "build:css": "npx @tailwindcss/cli -i ./src/v6/input.css -o ./docs/v6/style.css --minify",
     "dev:css": "npx @tailwindcss/cli -i ./src/v6/input.css -o ./docs/v6/style.css --watch"
   },
