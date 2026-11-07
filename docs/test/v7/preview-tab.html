@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monaco IDE V7 — Full Preview</title>
+<style>
+*{box-sizing:border-box}html,body,#sandpackRoot{margin:0;width:100%;height:100%;overflow:hidden}
+body{font:13px system-ui;background:#111827;color:#e5e7eb}
+#status{position:fixed;z-index:5;left:12px;bottom:10px;padding:5px 9px;border-radius:5px;background:#111827dd;color:#cbd5e1;font:11px ui-monospace,monospace;pointer-events:none}
+#renderFrame{display:block;width:100%;height:100%;border:0;background:white}
+#sandpackRoot{height:100%;width:100%}
+#sandpackRoot iframe{width:100%;height:100%;border:0}
+</style>
+</head>
+<body>
+<div id="sandpackRoot"></div>
+<script type="module" src="./preview-tab.js"></script>
+<div id="status">Connecting to Monaco IDE…</div>
+</body></html>

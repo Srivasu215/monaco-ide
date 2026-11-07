@@ -1,0 +1,27 @@
+{
+  "project": "Monaco IDE",
+  "version": "5.0.0",
+  "description": "Desktop-Grade Web IDE with Virtual Workspace Asset Resolver, Event Bus Architecture & Quick Open",
+  "author": "KeshavSoft",
+  "features": [
+    "Virtual Workspace Asset Resolver: inlines relative CSS & resolves assets for 100% styled HTML live previews",
+    "Event-Driven Architecture (core/eventBus.js) with decoupled feature modules",
+    "Quick File Switcher Palette (Ctrl+P) with fuzzy workspace search",
+    "Workspace Folder Explorer (Open Folder via showDirectoryPicker)",
+    "Collapsible left file tree sidebar (toggle with Ctrl+B)",
+    "Multi-document tabbed buffer strip with isolated Monaco text models",
+    "Live Split-Screen Preview (toggle with Ctrl+\\ or Preview button)",
+    "Compact 22px Studio Status Bar (Ln/Col, UTF-8, Spaces, Language)",
+    "Native File System Access API (Direct disk persistence via Ctrl+S)"
+  ],
+  "shortcuts": {
+    "quickOpen": "Press Ctrl+P to fuzzy-search and open any file in the workspace",
+    "openFolder": "Click 'Folder' to browse and edit an entire project directory",
+    "toggleSidebar": "Press Ctrl+B to toggle the Explorer sidebar",
+    "togglePreview": "Press Ctrl+\\ to toggle the live split preview pane",
+    "toggleWordWrap": "Press Alt+Z to toggle word wrapping",
+    "save": "Press Ctrl+S to save active file directly back to disk",
+    "format": "Press Shift+Alt+F to format active document",
+    "closeTab": "Press Ctrl+W to close active tab"
+  }
+}
