@@ -36,8 +36,8 @@
     "access": "public"
   },
   "scripts": {
-    "build:css": "npx @tailwindcss/cli -i ./src/v5/input.css -o ./docs/v5/style.css --minify",
-    "dev:css": "npx @tailwindcss/cli -i ./src/v5/input.css -o ./docs/v5/style.css --watch"
+    "build:css": "npx @tailwindcss/cli -i ./src/v6/input.css -o ./docs/v6/style.css --minify",
+    "dev:css": "npx @tailwindcss/cli -i ./src/v6/input.css -o ./docs/v6/style.css --watch"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.5",
